@@ -1,5 +1,6 @@
 package com.bridgelabz.testcab;
 
+import com.bridgelabz.cab.model.Ride;
 import com.bridgelabz.cab.service.CabBooking;
 import org.junit.Assert;
 import org.junit.Test;
@@ -27,6 +28,15 @@ public class TestCabBooking {
         cabBooking = new CabBooking();
         double totalFare = cabBooking.calculateRideFare(0.2, 2);
         Assert.assertEquals(5, totalFare, 1);
+    }
+
+    @Test
+    public void givenMultipleRides_WhenCalculateFare_ThenShouldReturnTotalFare() {
+        cabBooking = new CabBooking();
+        Ride[] rides = {new Ride(4, 10),
+                new Ride(10,15)};
+        double totalFare = cabBooking.calculateRideFare(rides);
+        Assert.assertEquals(165, totalFare, 0);
     }
 
 }
