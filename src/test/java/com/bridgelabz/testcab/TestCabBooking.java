@@ -21,4 +21,12 @@ public class TestCabBooking {
         double totalFare = cabBooking.calculateRideFare(15, 30.15);
         Assert.assertNotEquals(140.15, totalFare, 1);
     }
+
+    @Test
+    public void givenMinimumDistanceTime_WhenCalculateFare_ThenShouldReturnMinimumFare() {
+        cabBooking = new CabBooking();
+        double totalFare = cabBooking.calculateRideFare(0.2, 2);
+        Assert.assertEquals(5, totalFare, 1);
+    }
+
 }
