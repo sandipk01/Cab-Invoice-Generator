@@ -6,9 +6,14 @@ import com.bridgelabz.cab.service.CabBooking;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
 public class TestCabBooking {
 
     private CabBooking cabBooking;
+    private Map<String, ArrayList<Ride>> userRides;
 
     @Test
     public void givenDistanceTime_WhenCalculateFare_ThenShouldReturnTotalFare() {
@@ -70,4 +75,16 @@ public class TestCabBooking {
         Assert.assertEquals(30.33, details.getAverageFare(),1);
     }
 
+    @Test
+    public void givenUserIdAndRides_WhenCalculateFare_ShouldReturnInvoiceDetails() {
+        cabBooking=new CabBooking();
+        userRides=new HashMap<>();
+        String userId = "Sandip52";
+        Ride[] rides = {new Ride(2.0, 5),
+                new Ride(0.1, 1)};
+        userRides=cabBooking.addRides(userId,rides);
+        InvoiceDetails details = cabBooking.getInvoiceDetails(userId,userRides);
+        InvoiceDetails expectedDetails=new InvoiceDetails(2,30);
+        Assert.assertEquals(expectedDetails,details);
+    }
 }
