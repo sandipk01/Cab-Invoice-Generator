@@ -50,4 +50,24 @@ public class TestCabBooking {
         Assert.assertEquals(expectedDetails, details);
     }
 
+    @Test
+    public void givenMultipleRides_WhenCalculateFare_ShouldReturnNumberOfRides() {
+        cabBooking=new CabBooking();
+        Ride[] rides = {new Ride(2.0, 5),
+                        new Ride(0.1, 1),
+                        new Ride(0.1, 1)};
+        InvoiceDetails details = cabBooking.calculateRideFare(rides);
+        Assert.assertEquals(3, details.getNumOfRides(),0);
+    }
+
+    @Test
+    public void givenMultipleRides_WhenCalculateFare_ShouldReturnAverageFare() {
+        cabBooking=new CabBooking();
+        Ride[] rides = {new Ride(2.0, 5),
+                new Ride(0.1, 1),
+                new Ride(5.1, 10)};
+        InvoiceDetails details = cabBooking.calculateRideFare(rides);
+        Assert.assertEquals(30.33, details.getAverageFare(),1);
+    }
+
 }
