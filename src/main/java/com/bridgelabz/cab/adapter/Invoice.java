@@ -1,6 +1,11 @@
 package com.bridgelabz.cab.adapter;
 
+import com.bridgelabz.cab.model.InvoiceDetails;
 import com.bridgelabz.cab.model.Ride;
+import com.bridgelabz.cab.service.RideRepository;
+
+import java.util.ArrayList;
+import java.util.Map;
 
 public class Invoice implements IInvoice {
 
@@ -10,6 +15,7 @@ public class Invoice implements IInvoice {
     private double MINIMUM_FARE = 5;
 
     private double totalFare;
+    private RideRepository rideRepository;
 
     //Calculating Fare
     @Override
@@ -21,9 +27,24 @@ public class Invoice implements IInvoice {
     //calculating total fares for multiple rides
     @Override
     public double calculateFare(Ride[] rides) {
-        for(Ride ride:rides)
-            totalFare+=calculateFare(ride.getDistance(),ride.getTime());
-        return Math.max(totalFare,MINIMUM_FARE);
+        for (Ride ride : rides)
+            totalFare += calculateFare(ride.getDistance(), ride.getTime());
+        return Math.max(totalFare, MINIMUM_FARE);
+    }
+
+    //Method for inserting multiple rides
+    @Override
+    public Map<String, ArrayList<Ride>> addRides(String userId, Ride[] rides) {
+        rideRepository = new RideRepository();
+        return rideRepository.addRides(userId, rides);
+    }
+
+    //Method for getting rides detail of particular user
+    @Override
+    public InvoiceDetails getInvoiceDetails(String userId, Map<String, ArrayList<Ride>> userRides) {
+        rideRepository = new RideRepository();
+        totalFare=calculateFare(rideRepository.getRidesByUserId(userId,userRides));
+        return new InvoiceDetails(rideRepository.getRidesByUserId(userId,userRides).length,totalFare);
     }
 
 }
