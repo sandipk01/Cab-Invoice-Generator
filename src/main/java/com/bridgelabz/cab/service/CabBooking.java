@@ -1,6 +1,7 @@
 package com.bridgelabz.cab.service;
 
 import com.bridgelabz.cab.adapter.IInvoice;
+import com.bridgelabz.cab.model.InvoiceDetails;
 import com.bridgelabz.cab.adapter.InvoiceFactory;
 import com.bridgelabz.cab.model.Ride;
 
@@ -14,9 +15,11 @@ public class CabBooking {
         return iInvoice.calculateFare(distance, time);
     }
 
-    //Method for calculating multiple fare
-    public double calculateRideFare(Ride[] rides) {
+    //Method for calculating multiple fare and generating invoice details
+    public InvoiceDetails calculateRideFare(Ride[] rides) {
         iInvoice = InvoiceFactory.getInvoiceInstance();
-        return iInvoice.calculateFare(rides);
+        double totalFare=iInvoice.calculateFare(rides);
+        return new InvoiceDetails(rides.length,totalFare);
     }
+
 }
