@@ -10,12 +10,27 @@ import java.util.Map;
 public class Invoice implements IInvoice {
 
     //Constants
-    private double RATE_PER_KM = 10;
-    private int RATE_PER_MIN = 1;
-    private double MINIMUM_FARE = 5;
+    private double RATE_PER_KM;
+    private int RATE_PER_MIN;
+    private double MINIMUM_FARE;
 
     private double totalFare;
     private RideRepository rideRepository;
+
+    public enum TypeOfSubscription {NORMAL, PREMIUM}
+
+    public Invoice(TypeOfSubscription typeOfSubscription) {
+
+        if (typeOfSubscription.equals(TypeOfSubscription.PREMIUM)) {
+            this.RATE_PER_KM = 15;
+            this.RATE_PER_MIN = 2;
+            this.MINIMUM_FARE = 20;
+        } else if (typeOfSubscription.equals(TypeOfSubscription.NORMAL)) {
+            this.RATE_PER_KM = 10;
+            this.RATE_PER_MIN = 1;
+            this.MINIMUM_FARE = 5;
+        }
+    }
 
     //Calculating Fare
     @Override
@@ -43,8 +58,8 @@ public class Invoice implements IInvoice {
     @Override
     public InvoiceDetails getInvoiceDetails(String userId, Map<String, ArrayList<Ride>> userRides) {
         rideRepository = new RideRepository();
-        totalFare=calculateFare(rideRepository.getRidesByUserId(userId,userRides));
-        return new InvoiceDetails(rideRepository.getRidesByUserId(userId,userRides).length,totalFare);
+        totalFare = calculateFare(rideRepository.getRidesByUserId(userId, userRides));
+        return new InvoiceDetails(rideRepository.getRidesByUserId(userId, userRides).length, totalFare);
     }
 
 }
