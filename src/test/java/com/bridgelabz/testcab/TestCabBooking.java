@@ -14,4 +14,11 @@ public class TestCabBooking {
         double totalFare = cabBooking.calculateRideFare(15, 30.15);
         Assert.assertEquals(180.15, totalFare, 1);
     }
+
+    @Test
+    public void givenWrongExpectedInput_WhenCalculateFare_ThenShouldReturnTotalFare() {
+        cabBooking = new CabBooking();
+        double totalFare = cabBooking.calculateRideFare(15, 30.15);
+        Assert.assertNotEquals(140.15, totalFare, 1);
+    }
 }
